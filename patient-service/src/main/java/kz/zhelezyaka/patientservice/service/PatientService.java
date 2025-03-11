@@ -1,5 +1,6 @@
 package kz.zhelezyaka.patientservice.service;
 
+import kz.zhelezyaka.patientservice.dto.PatientRequestDTO;
 import kz.zhelezyaka.patientservice.dto.PatientResponseDTO;
 import kz.zhelezyaka.patientservice.mapper.PatientMapper;
 import kz.zhelezyaka.patientservice.model.Patient;
@@ -20,5 +21,11 @@ public class PatientService {
         return patients.stream()
                 .map(PatientMapper::toDTO)
                 .toList();
+    }
+
+    public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
+        Patient newPatient = patientRepository.save(
+                PatientMapper.toModel(patientRequestDTO));
+        return PatientMapper.toDTO(newPatient);
     }
 }
