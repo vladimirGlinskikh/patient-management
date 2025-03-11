@@ -11,3 +11,7 @@ spring:
 
 server:
   port: 5151
+
+logging:
+  level:
+    root: info

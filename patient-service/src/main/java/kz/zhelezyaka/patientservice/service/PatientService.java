@@ -2,6 +2,7 @@ package kz.zhelezyaka.patientservice.service;
 
 import kz.zhelezyaka.patientservice.dto.PatientRequestDTO;
 import kz.zhelezyaka.patientservice.dto.PatientResponseDTO;
+import kz.zhelezyaka.patientservice.exception.EmailAlreadyExistsException;
 import kz.zhelezyaka.patientservice.mapper.PatientMapper;
 import kz.zhelezyaka.patientservice.model.Patient;
 import kz.zhelezyaka.patientservice.repository.PatientRepository;
@@ -24,6 +25,10 @@ public class PatientService {
     }
 
     public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
+        if (patientRepository.existsByEmail(patientRequestDTO.getEmail())) {
+            throw new EmailAlreadyExistsException("A patient with this email already exists" +
+                    patientRequestDTO.getEmail());
+        }
         Patient newPatient = patientRepository.save(
                 PatientMapper.toModel(patientRequestDTO));
         return PatientMapper.toDTO(newPatient);
