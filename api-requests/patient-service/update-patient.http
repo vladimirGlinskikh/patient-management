@@ -1,0 +1,12 @@
+### Updates an existing patient entity
+PUT http://localhost:5151/patients/3533edb3-7a06-4a38-88a5-f90638da3e11
+Content-Type: application/json
+
+{
+  "name": "Владимир Терехов",
+  "email": "terehov@gmail.com",
+  "address": "Анапское шоссе 12",
+  "dateOfBirth": "1975-09-20",
+  "registeredDate": "2025-03-12"
+}
+###
