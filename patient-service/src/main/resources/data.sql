@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS patient
     registered_date DATE                NOT NULL
 );
 
-INSERT INTO patient (id, address, date_of_birth, email, name, registered_date)
-VALUES ('3533edb3-7a06-4a38-88a5-f90638da3e11',
-        '89 Lenina street',
-        '1975-08-15',
-        'vladimir.v@gmail.com',
-        'Vladimir Vladimirov',
-        '2025-03-09');
+-- INSERT INTO patient (id, address, date_of_birth, email, name, registered_date)
+-- VALUES ('3533edb3-7a06-4a38-88a5-f90638da3e15',
+--         '89 Lenina street',
+--         '1975-08-15',
+--         'vladimir.vs2@gmail.com',
+--         'Vladimir Vladimirov',
+--         '2025-03-09');

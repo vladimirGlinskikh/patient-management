@@ -4,11 +4,11 @@ import kz.zhelezyaka.patientservice.dto.PatientRequestDTO;
 import kz.zhelezyaka.patientservice.dto.PatientResponseDTO;
 import kz.zhelezyaka.patientservice.exception.EmailAlreadyExistsException;
 import kz.zhelezyaka.patientservice.exception.PatientNotFoundException;
+import kz.zhelezyaka.patientservice.grpc.BillingServiceGrpcClient;
 import kz.zhelezyaka.patientservice.mapper.PatientMapper;
 import kz.zhelezyaka.patientservice.model.Patient;
 import kz.zhelezyaka.patientservice.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,6 +20,7 @@ import java.util.UUID;
 public class PatientService {
 
     private final PatientRepository patientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
     public List<PatientResponseDTO> getPatients() {
         List<Patient> patients = patientRepository.findAll();
@@ -35,6 +36,12 @@ public class PatientService {
         }
         Patient newPatient = patientRepository.save(
                 PatientMapper.toModel(patientRequestDTO));
+
+        billingServiceGrpcClient.createBillingAccount(
+                newPatient.getId().toString(),
+                newPatient.getName(),
+                newPatient.getEmail());
+
         return PatientMapper.toDTO(newPatient);
     }
 

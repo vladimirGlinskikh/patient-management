@@ -4,3 +4,10 @@ server:
 logging:
   level:
     root: info
+
+billing:
+  service:
+    address:
+      localhost: localhost
+    grpc:
+      port: 9001
