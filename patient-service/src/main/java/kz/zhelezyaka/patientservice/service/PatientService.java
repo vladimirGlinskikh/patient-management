@@ -5,6 +5,7 @@ import kz.zhelezyaka.patientservice.dto.PatientResponseDTO;
 import kz.zhelezyaka.patientservice.exception.EmailAlreadyExistsException;
 import kz.zhelezyaka.patientservice.exception.PatientNotFoundException;
 import kz.zhelezyaka.patientservice.grpc.BillingServiceGrpcClient;
+import kz.zhelezyaka.patientservice.kafka.KafkaProducer;
 import kz.zhelezyaka.patientservice.mapper.PatientMapper;
 import kz.zhelezyaka.patientservice.model.Patient;
 import kz.zhelezyaka.patientservice.repository.PatientRepository;
@@ -21,6 +22,7 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
     private final BillingServiceGrpcClient billingServiceGrpcClient;
+    private final KafkaProducer kafkaProducer;
 
     public List<PatientResponseDTO> getPatients() {
         List<Patient> patients = patientRepository.findAll();
@@ -41,6 +43,8 @@ public class PatientService {
                 newPatient.getId().toString(),
                 newPatient.getName(),
                 newPatient.getEmail());
+
+        kafkaProducer.sendEvent(newPatient);
 
         return PatientMapper.toDTO(newPatient);
     }
