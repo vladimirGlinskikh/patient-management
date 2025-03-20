@@ -1,5 +1,6 @@
 package kz.zhelezyaka.authservice.service;
 
+import io.jsonwebtoken.JwtException;
 import kz.zhelezyaka.authservice.dto.LoginRequestDTO;
 import kz.zhelezyaka.authservice.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,14 @@ public class AuthService {
                         u.getPassword()))
                 .map(u -> jwtUtil.generateToken(u.getEmail(), u.getRole()));
         return token;
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            jwtUtil.validateToken(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 }
